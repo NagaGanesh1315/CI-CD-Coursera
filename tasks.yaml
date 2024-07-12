@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Cleanup artifacts
+        run: |
+          # Example commands to clean up artifacts or temporary files
+          rm -rf node_modules
+          rm -rf dist
